@@ -109,6 +109,10 @@ def test_diagrams_copied_only_when_shown(data: PublishedData, tmp_path: Path) ->
     assert 'src="diagrams/roadmap-site.svg"' in (out / "index.html").read_text(encoding="utf-8")
     case = (out / "cases/private-proj.html").read_text(encoding="utf-8")
     assert 'src="../diagrams/private-proj.svg"' in case and 'alt="' in case
+    # The diagram closes each page, after the explanatory text (ADR-12, T26).
+    assert case.index('class="panel prose"') < case.index('class="panel diagram"')
+    index = (out / "index.html").read_text(encoding="utf-8")
+    assert index.index('class="panel prose"') < index.index('class="panel diagram"')
 
 
 def test_no_diagram_section_without_svgs(data: PublishedData, tmp_path: Path) -> None:

@@ -8,14 +8,14 @@
 <li class="dag-node"><span class="mono dag-step">guard</span><span>Leak scan</span><small class="muted">terms, secrets, PII, links</small></li>
 <li class="dag-node"><span class="mono dag-step">serve</span><span>Static site</span><small class="muted">GitHub Pages, no JS</small></li>
 </ol>
+<div class="panel prose">
+{{ about_html|safe }}
+</div>
 {% if home_diagram %}
 <figure class="panel diagram">
 <a href="diagrams/{{ home_diagram }}.svg"><img src="diagrams/{{ home_diagram }}.svg" loading="lazy" decoding="async" width="1025" height="796" alt="Architecture of this site: a daily GitHub Actions run extracts allowed ranges from a private Google Sheet with a read-only service account, validates them, applies the Publico allowlist, writes the published.json snapshot, renders static HTML, scans every page for leaks and deploys to GitHub Pages only if clean. Leak evals run in CI and a daily audit crawls the live site and the repository history."></a>
 <figcaption class="muted">Architecture, drawn with Archify. Tap to open full size.</figcaption>
 </figure>
 {% endif %}
-<div class="panel prose">
-{{ about_html|safe }}
-</div>
 <p class="run mono"><span class="status status--done">last run: succeeded</span> <span class="muted">Data last updated: {{ data.data_updated_at.isoformat() }}</span> <a class="button" href="{{ config.repo_url }}" rel="noopener">Source code <span aria-hidden="true">&#8599;</span></a></p>
 </section>

@@ -227,3 +227,6 @@ Pedidas pelo Lucas depois da T17. Implementadas na main session (tier: standard/
   - files: `diagrams/roadmap-site.architecture.json`, `diagrams/job-search-agent.architecture.json` (fontes Archify, inglês), `static/diagrams/*.svg` (export), `src/roadmap/render.py` (copia os SVGs), `src/roadmap/leakscan.py` (varre `.svg`, bloqueia script/foreignObject/on*), `config/guardrails.yaml` e fixture (`.svg` permitido), `templates/partials/how_it_works.html`, `templates/case.html`, `static/style.css`, testes em `tests/test_leakscan.py`, `tests/test_render.py`, `tests/test_content.py`
   - do not touch: repo privado do job agent (o diagrama original continua lá, intacto)
   - done when: build e auditoria verdes, SVGs sem script e sem plataforma de vagas — test: `pytest tests/test_leakscan.py tests/test_render.py tests/test_content.py`
+- [x] **T26 Diagrama depois do texto** — covers [R5, R2] — tier: light — follow: ADR-12
+  - files: `templates/partials/how_it_works.html`, `templates/case.html`, `tests/test_render.py`
+  - done when: nas duas páginas a figura vem depois do texto explicativo — test: `pytest tests/test_render.py -k diagram`
