@@ -124,7 +124,7 @@
       "competencies": [
         "data-platform-engineering"
       ],
-      "description": "This site, built spec-first (SDD) with AI coding agents: a daily batch pipeline that reads a private Google Sheet, validates it with blocking data-quality rules, applies an allowlist and publishes a static site after a leak scan.",
+      "description": "This site, built spec-first (SDD) with AI coding agents: a daily batch pipeline that reads a private Google Sheet, validates it with blocking data-quality rules and publishes a static site. Every deploy is guarded by a 59-case leak eval suite (100% recall and precision), about 180 tests and daily audits of the live site and repo history.",
       "id": "roadmap-site",
       "repo_url": "https://github.com/lavnicki/roadmap-site",
       "stack": [
