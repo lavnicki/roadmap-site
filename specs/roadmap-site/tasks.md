@@ -215,3 +215,7 @@ Pedidas pelo Lucas depois da T17. Implementadas na main session (tier: standard/
 - [x] **T22 SDD citado nos projetos e módulos fora do site** — covers [R1, R2, R5] — tier: light
   - files: `content/about.md`, case, descrições na aba `Publico`, `config/site.yaml` (`platform`); módulos do Spark & Databricks com `publicar=não`
   - done when: publicação verde e auditoria do site no ar sem issues — test: `roadmap audit-live`
+- [x] **T23 Linha de idioma no topo** — covers [R9, R8] — tier: light — follow: ADR-11
+  - files: `src/roadmap/config.py` (`languages: list[str] = []`), `config/site.yaml`, `templates/partials/hero.html`, `static/style.css`, `tests/test_render.py`
+  - do not touch: aba `Publico`, `config/guardrails.yaml` (o nome da escola continua bloqueado)
+  - done when: a linha aparece no hero quando configurada e some quando vazia — test: `pytest tests/test_render.py -k languages`

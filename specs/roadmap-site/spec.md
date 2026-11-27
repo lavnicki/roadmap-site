@@ -155,6 +155,9 @@ Como **recrutador**, quero ler o site em 1–2 min, inclusive no celular, para d
 - **Given** a página inicial
   **When** é aberta
   **Then** o topo mostra nome, título-alvo ("Senior Data Engineer → AI Data Engineer"), resumo de 1–2 frases, links (LinkedIn, GitHub; CV fora do MVP) e os KPIs principais, sem precisar rolar a tela no desktop.
+- **Given** que o público principal é recrutador estrangeiro *(revisão 2026-11-27, ADR-11)*
+  **When** a página inicial é aberta
+  **Then** o topo mostra uma linha de idioma ("English: B2 · ongoing coaching (speaking & writing)"), vinda da configuração, sem horas, sem % e sem o nome da escola de idiomas, que continua bloqueado (R8). O estudo de inglês não entra em competências, cursos nem KPIs.
 - **Given** um celular (largura ≥ 360px)
   **When** o site é aberto
   **Then** todo o conteúdo fica legível, sem rolagem horizontal.

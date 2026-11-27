@@ -17,6 +17,11 @@
 <ul class="links">
 {% for link in data.profile.links %}<li><a class="button" href="{{ link.url }}" rel="noopener">{{ link.label }} <span aria-hidden="true">&#8599;</span></a></li>
 {% endfor %}</ul>
+{% if config.languages %}
+<ul class="languages" aria-label="Languages">
+{% for item in config.languages %}<li>{{ item }}</li>
+{% endfor %}</ul>
+{% endif %}
 {% if config.platform %}
 <ul class="platform mono" aria-label="Production platform">
 {% for item in config.platform %}<li>{{ item }}</li>

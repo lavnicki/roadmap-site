@@ -26,6 +26,8 @@ class SiteConfig(BaseModel):
     repo_url: str
     # Decorative "platform" strip in the hero (tools used in production). Optional.
     platform: list[str] = []
+    # Language lines in the hero, e.g. "English: B2 · ...". No hours, no school name (ADR-11).
+    languages: list[str] = []
     # Overrides the "studying since" KPI (courses taken before the Cronograma existed).
     studying_since: datetime.date | None = None
 

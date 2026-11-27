@@ -239,6 +239,12 @@ Reprocessamento e backfill: não há estado próprio. Toda execução recalcula 
 - **Decisão:** (c). `status_manual` ∈ {Done, In progress}. `horas_manual`: Done → número (carga total, opcional); In progress → `feito/total` (opcional; número sozinho é inválido; feito ≤ total). Status da competência: Done só com todos os cursos Done; In progress se houver horas feitas, curso começado ou projeto público ligado. Data de início dos KPIs configurável (`studying_since` em `config/site.yaml`).
 - **Consequências:** sem mudança no range extraído nem no esquema da planilha. As horas manuais precisam ser atualizadas à mão pelo Lucas (célula `horas_manual` do curso). O "% do plano" passa a misturar horas do `Cronograma` com horas declaradas.
 
+### ADR-11: Inglês como linha de perfil, não como curso (2026-11-27)
+- **Contexto:** inglês é filtro de entrada para vagas remotas no exterior. O estudo de inglês está no `Cronograma` com sessões curtas e várias faltas, e o nome da escola está no vocabulário privado (`config/guardrails.yaml`) e fora da allowlist (R8).
+- **Opções:** (a) não mostrar; (b) card/curso "Professional English" com horas do `Cronograma`; (c) linha no topo, configurada em `config/site.yaml`, sem horas.
+- **Decisão:** (c). `languages: list[str]` em `SiteConfig`, renderizado no hero logo abaixo dos links. Texto atual: `English: B2 · ongoing coaching (speaking & writing)`. As linhas do `Cronograma` do curso de inglês continuam fora da allowlist e o nome da escola continua no vocabulário privado.
+- **Consequências:** o nível é declarado pelo Lucas e atualizado à mão no `config/site.yaml`. Não mistura horas de idioma com o "% do plano" técnico nem expõe a constância das sessões.
+
 ## Risks / Open items
 
 | # | Risco / item | Impacto | Mitigação / próximo passo | Dono |

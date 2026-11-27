@@ -84,3 +84,12 @@ def test_deterministic(data: PublishedData, tmp_path: Path) -> None:
     render_site(data, CONFIG, CONTENT, tmp_path / "b")
     for name in ("index.html", "cases/private-proj.html", "style.css"):
         assert (tmp_path / "a" / name).read_bytes() == (tmp_path / "b" / name).read_bytes()
+
+
+def test_languages_line_in_hero(data: PublishedData, tmp_path: Path) -> None:
+    line = "English: B2 · ongoing coaching (speaking & writing)"
+    render_site(data, CONFIG.model_copy(update={"languages": [line]}), CONTENT, tmp_path / "a")
+    html = (tmp_path / "a/index.html").read_text(encoding="utf-8")
+    assert 'class="languages"' in html and "English: B2" in html
+    render_site(data, CONFIG, CONTENT, tmp_path / "b")
+    assert 'class="languages"' not in (tmp_path / "b/index.html").read_text(encoding="utf-8")
