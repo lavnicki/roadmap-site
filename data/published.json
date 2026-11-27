@@ -43,68 +43,7 @@
       "hours_done": 12.0,
       "hours_planned": 78.0,
       "id": "spark-databricks",
-      "modules": [
-        {
-          "id": "spark-databricks-m1",
-          "name": "Module 1 – Spark Foundations",
-          "status": "Done"
-        },
-        {
-          "id": "spark-databricks-m2",
-          "name": "Module 2 – Building Scalable Applications",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m3",
-          "name": "Module 3 – Spark-as-a-Service & Spark on Kubernetes",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m4",
-          "name": "Module 4 – Data Lakehouse (Delta Lake, Iceberg)",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m5",
-          "name": "Module 5 – Real-Time Processing (Kafka, Structured Streaming)",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m6",
-          "name": "Module 6 – Troubleshooting & Performance Tuning",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m7",
-          "name": "Module 7 – Databricks Data Intelligence Platform",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m8",
-          "name": "Module 8 – Data Engineering on Databricks (LakeFlow, Auto Loader, CDC)",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m9",
-          "name": "Module 9 – Analytics & Data Warehouse",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m10",
-          "name": "Module 10 – ML, MLOps, GenAI, LLMOps & Agents",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m11",
-          "name": "Module 11 – Databricks Performance Tuning",
-          "status": "Planned"
-        },
-        {
-          "id": "spark-databricks-m12",
-          "name": "Module 12 – DevOps & DataOps",
-          "status": "Planned"
-        }
-      ],
+      "modules": [],
       "name": "Spark & Databricks Engineering",
       "provider": "Engenharia de Dados Academy",
       "status": "In progress"
