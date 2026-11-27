@@ -36,3 +36,14 @@ def test_diagrams_follow_case_rules(path: Path) -> None:
         spec = json.loads(text)
         assert "repository" not in spec["meta"]
         assert all("sources" not in c for c in spec["components"])
+
+
+SOURCE_TEXT = sorted((ROOT / "static").glob("*.css")) + sorted((ROOT / "templates").rglob("*.html"))
+_CONTROL = {*range(0x00, 0x09), 0x0B, 0x0C, *range(0x0E, 0x20), 0x7F}
+
+
+@pytest.mark.parametrize("path", SOURCE_TEXT, ids=lambda p: p.name)
+def test_stylesheets_and_templates_have_no_control_characters(path: Path) -> None:
+    # A broken CSS escape once shipped a stray control char that rendered as a box (T27).
+    text = path.read_text(encoding="utf-8")
+    assert not [hex(ord(c)) for c in text if ord(c) in _CONTROL]

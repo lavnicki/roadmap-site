@@ -230,3 +230,6 @@ Pedidas pelo Lucas depois da T17. Implementadas na main session (tier: standard/
 - [x] **T26 Diagrama depois do texto** — covers [R5, R2] — tier: light — follow: ADR-12
   - files: `templates/partials/how_it_works.html`, `templates/case.html`, `tests/test_render.py`
   - done when: nas duas páginas a figura vem depois do texto explicativo — test: `pytest tests/test_render.py -k diagram`
+- [x] **T27 Marcador da linha de idioma** — covers [R5] — tier: light — follow: ADR-11
+  - files: `static/style.css` (escape `\25CF` do marcador), `tests/test_content.py`
+  - done when: o marcador antes de "English: B2" aparece como ● e CSS/templates não têm caracteres de controle — test: `pytest tests/test_content.py -k control`
