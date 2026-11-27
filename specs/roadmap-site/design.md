@@ -230,8 +230,14 @@ Reprocessamento e backfill: não há estado próprio. Toda execução recalcula 
 
 ### ADR-08: `Cronograma` como única fonte de horas; Missed excluído; módulos como checklist
 - **Contexto:** o status "Não feito" existe na planilha real. A aba `Spark & Databricks` tem horas (14h/módulo) que divergem do `Cronograma`.
-- **Decisão:** horas e % vêm só do `Cronograma`; Missed fica fora dos cálculos e do site; módulos aparecem só com Done/Planned; `status_manual` cobre cursos acompanhados fora do plano (concluídos ou em andamento).
+- **Decisão:** horas e % vêm só do `Cronograma`; Missed fica fora dos cálculos e do site; módulos aparecem só com Done/Planned; `status_manual` cobre cursos concluídos antes do plano (ex. FDE). *Revisada pela ADR-10.*
 - **Consequências:** uma regra única para todas as competências. As horas do curso podem parecer menores que a carga oficial, porque só contam sessões registradas.
+
+### ADR-10: Cursos fora do `Cronograma` e status da competência (2026-11-27)
+- **Contexto:** a competência AI Data Engineering aparecia como Planned (0h), embora já houvesse um curso concluído (AIDE, 70h), um em andamento (FDE, 105 de 384h) e um projeto prático. Nenhum dos dois cursos tem linhas no `Cronograma`, e a ADR-08 só previa `status_manual=Done`.
+- **Opções:** (a) lançar as horas desses cursos no `Cronograma` (polui o plano semanal com horas passadas); (b) nova coluna na aba `Publico` para a carga total (muda o range extraído, ADR-04); (c) ampliar `status_manual` para `In progress` e aceitar `feito/total` em `horas_manual`.
+- **Decisão:** (c). `status_manual` ∈ {Done, In progress}. `horas_manual`: Done → número (carga total, opcional); In progress → `feito/total` (opcional; número sozinho é inválido; feito ≤ total). Status da competência: Done só com todos os cursos Done; In progress se houver horas feitas, curso começado ou projeto público ligado. Data de início dos KPIs configurável (`studying_since` em `config/site.yaml`).
+- **Consequências:** sem mudança no range extraído nem no esquema da planilha. As horas manuais precisam ser atualizadas à mão pelo Lucas (célula `horas_manual` do curso). O "% do plano" passa a misturar horas do `Cronograma` com horas declaradas.
 
 ## Risks / Open items
 

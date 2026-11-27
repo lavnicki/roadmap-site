@@ -55,7 +55,10 @@ Como **recrutador**, quero ver as competências da trilha (ex. "LLM Engineering"
 - **Given** uma competência sem nenhuma hora planejada
   **When** o site é gerado
   **Then** ela aparece sem barra de % e sem divisão por zero: "In progress" se tiver ao menos um projeto público ligado (trabalho prático em andamento), senão "Planned".
-- **Given** a trilha `Spark & Databricks` pública e módulos mapeados na aba `Publico`
+- **Given** uma competência com algum curso ligado já começado (In progress ou Done) mas nem todos concluídos
+  **When** o site é gerado
+  **Then** ela aparece como "In progress", e só vira "Done" quando todos os cursos ligados estiverem Done. *(revisão 2026-11-27, ADR-10)*
+- **Given** a trilha `Spark & Databricks` pública e módulos mapeados **e marcados como públicos** na aba `Publico` (opcional: desde 2026-11-27 os módulos estão com `publicar=não`, para o site não ficar granular demais)
   **When** o site é gerado
   **Then** o card mostra a lista de módulos (nome em inglês + Done/Planned) como checklist, **sem horas**. Horas e % da trilha vêm só do `Cronograma`.
 
@@ -82,12 +85,18 @@ Como **recrutador**, quero ver a lista de cursos e certificações com status e,
 - **Given** um curso que existe no `Cronograma` mas não está mapeado na aba `Publico`
   **When** o site é gerado
   **Then** ele **não** aparece no site (ver R8).
+- **Given** um curso feito fora do `Cronograma` (ex. concluído antes do plano, ou em andamento noutro ritmo), com status manual na aba `Publico` *(revisão 2026-11-27, ADR-10)*
+  **When** o site é gerado
+  **Then** aparece com o status manual. Se Done, mostra a carga total informada (ex. 70h). Se In progress, mostra feito/total informados (ex. 105/384h). Sem horas informadas, aparece sem horas. Essas horas entram nos KPIs e no % da competência.
 
 ### R4 — Progresso em horas
 Como **recrutador**, quero ver números de progresso confiáveis, para perceber constância e volume de estudo.
 - **Given** qualquer volume de histórico
   **When** o site é gerado
   **Then** o bloco mostra KPIs: horas concluídas, % do plano total, cursos concluídos / total e data de início dos estudos.
+- **Given** que os estudos começaram antes do `Cronograma` existir *(revisão 2026-11-27)*
+  **When** o site é gerado
+  **Then** a data de início vem de um valor configurado (`studying_since`), e não da primeira linha do `Cronograma`.
 - **Given** menos de 4 semanas de histórico com horas concluídas
   **When** o site é gerado
   **Then** o gráfico temporal **não** aparece; só os KPIs e as barras por competência.
@@ -134,6 +143,9 @@ Como **Lucas**, quero que só o conteúdo explicitamente marcado como público v
 - **Given** uma lista de termos proibidos mantida fora do repositório público (ex. nome do cliente atual)
   **When** a atualização roda
   **Then** se qualquer termo proibido aparecer no conteúdo a publicar, a publicação é bloqueada (R7).
+- **Given** um case escrito de projeto *(revisão 2026-11-27)*
+  **When** é publicado
+  **Then** não nomeia plataformas de vagas (nem no texto nem no endereço da página) e não diz quais empresas o projeto exclui; regras de exclusão aparecem só de forma genérica ("filtro de empresas configurável").
 - **Given** os dados intermediários e os logs da atualização
   **When** ficam disponíveis publicamente (repositório, artefatos)
   **Then** contêm só dados já filtrados pela allowlist.

@@ -195,3 +195,23 @@ T1 ─┬─ T2 ─┬─ T4 ─┬─ T5 ──┐
 - [x] **T17 Primeira publicação real + aceite** — covers [R1–R9, métricas] — tier: strong — (depends on T16)
   - Rodar o workflow, abrir o site no celular (360px) e no desktop, rodar Lighthouse mobile (≥ 90 em Performance e Accessibility) e conferir no site publicado que não há "Observação", "Entrevistas", DevSpeak nem bootcamps. Rodar o workflow de novo sem mudar a planilha → sem commit novo (idempotência). Quebrar uma hora de propósito numa cópia de teste → e-mail de falha. Revisar o inglês com o Lucas.
   - done when: checklist acima ok; link pronto para CV/LinkedIn
+
+## Mudanças pós-lançamento (2026-11-27)
+
+Pedidas pelo Lucas depois da T17. Implementadas na main session (tier: standard/strong) e registradas aqui para manter a rastreabilidade spec → design → task → teste.
+
+- [x] **T18 Case sem plataforma de vagas e com filtro genérico** — covers [R2, R8] — tier: light
+  - files: `content/cases/job-search-agent.md` (renomeado de outro slug), aba `Publico` (id do projeto), `tests/test_content.py`
+  - done when: nenhum case cita plataformas de vagas no texto ou no slug — test: `pytest tests/test_content.py`
+- [x] **T19 Competência conta projeto e curso começado como progresso** — covers [R1] — tier: standard — follow: ADR-10
+  - files: `src/roadmap/transform.py` (`_competency_status`), `templates/partials/competency_card.html`, fixtures `EXPECTED.md`/`expected_published.json`
+  - done when: tabela de regras coberta — test: `pytest tests/test_transform.py -k competency`
+- [x] **T20 Cursos manuais Done/In progress com horas `feito/total`** — covers [R3, R4] — tier: strong — follow: ADR-10
+  - files: `src/roadmap/models.py`, `parse.py`, `validate.py`, `transform.py`, `templates/partials/course_list.html`; aba `Publico` (linhas `aide` e `forward-deployed-engineer`)
+  - done when: formatos aceitos/rejeitados e regras de validação testados — test: `pytest tests/test_parse.py -k horas_manual tests/test_validate.py -k manual`
+- [x] **T21 Data de início configurável** — covers [R4] — tier: light — follow: ADR-10
+  - files: `src/roadmap/config.py` (`studying_since`), `config/site.yaml` (`2026-09-01`), `transform.py`
+  - done when: override e fallback testados — test: `pytest tests/test_transform.py -k studying_since`
+- [x] **T22 SDD citado nos projetos e módulos fora do site** — covers [R1, R2, R5] — tier: light
+  - files: `content/about.md`, case, descrições na aba `Publico`, `config/site.yaml` (`platform`); módulos do Spark & Databricks com `publicar=não`
+  - done when: publicação verde e auditoria do site no ar sem issues — test: `roadmap audit-live`
