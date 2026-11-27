@@ -219,3 +219,7 @@ Pedidas pelo Lucas depois da T17. Implementadas na main session (tier: standard/
   - files: `src/roadmap/config.py` (`languages: list[str] = []`), `config/site.yaml`, `templates/partials/hero.html`, `static/style.css`, `tests/test_render.py`
   - do not touch: aba `Publico`, `config/guardrails.yaml` (o nome da escola continua bloqueado)
   - done when: a linha aparece no hero quando configurada e some quando vazia — test: `pytest tests/test_render.py -k languages`
+- [x] **T24 Testes e evals do próprio site visíveis** — covers [R2, R5] — tier: light
+  - files: `content/about.md` (parágrafo sobre testes e evals; contagens de ADRs/tasks sem números que envelhecem), descrição do `roadmap-site` na aba `Publico`
+  - do not touch: `src/`, `evals/`
+  - done when: o card do projeto e a seção "How this site works" citam a suíte de evals de vazamento e os testes automatizados — test: `roadmap audit-live` sem issues e conferência visual no site
