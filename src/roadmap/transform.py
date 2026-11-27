@@ -211,7 +211,7 @@ def build_published(
         pct_plan=_pct(total_done, total_planned) or 0.0,
         courses_done=sum(1 for c in courses if c.status == "Done"),
         courses_total=len(courses),
-        study_start=min(done_dates or any_dates or [today]),
+        study_start=config.studying_since or min(done_dates or any_dates or [today]),
     )
 
     candidate = PublishedData(

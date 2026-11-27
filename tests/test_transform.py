@@ -134,3 +134,11 @@ def test_competency_status_rules(
     done: float, planned: float, courses: list[str], projects: bool, expected: str
 ) -> None:
     assert _competency_status(done, planned, courses, projects) == expected
+
+
+def test_studying_since_overrides_study_start(parsed: ParsedSheets) -> None:
+    config = load_config(ROOT / "tests/fixtures/site.yaml").model_copy(
+        update={"studying_since": datetime.date(2026, 9, 1)}
+    )
+    assert _build(parsed, config=config).kpis.study_start == datetime.date(2026, 9, 1)
+    assert _build(parsed).kpis.study_start == datetime.date(2026, 12, 28)  # from the Cronograma

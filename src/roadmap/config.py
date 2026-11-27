@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import datetime
 from pathlib import Path
 
 import yaml
@@ -25,6 +26,8 @@ class SiteConfig(BaseModel):
     repo_url: str
     # Decorative "platform" strip in the hero (tools used in production). Optional.
     platform: list[str] = []
+    # Overrides the "studying since" KPI (courses taken before the Cronograma existed).
+    studying_since: datetime.date | None = None
 
 
 def load_config(path: Path) -> SiteConfig:
