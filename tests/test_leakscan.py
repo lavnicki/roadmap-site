@@ -116,3 +116,18 @@ def test_empty_guardrails_still_check_terms_and_secrets() -> None:
     empty = Guardrails()
     assert scan_text("x", "acme-corp", TERMS, empty)
     assert not scan_text("x", "DevSpeak", TERMS, empty)
+
+
+def test_published_diagrams_are_clean_pictures() -> None:
+    # The committed SVGs must pass the same scan as the site: no script, no external links,
+    # no private vocabulary or test terms.
+    for svg in sorted((ROOT / "static/diagrams").glob("*.svg")):
+        issues = scan_document(svg.name, svg.read_text(encoding="utf-8"), ".svg", TERMS, GUARD)
+        assert issues == [], (svg.name, [i.message for i in issues])
+
+
+def test_svg_with_active_content_is_blocked() -> None:
+    bad = "<svg><rect onclick='x()'/></svg>"
+    assert [i.message for i in scan_document("d.svg", bad, ".svg", [], GUARD)] == [
+        "active content (script, foreignObject or event handler) found in d.svg"
+    ]

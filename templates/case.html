@@ -13,6 +13,12 @@
 {% for item in project.stack %}<li>{{ item }}</li>
 {% endfor %}</ul>
 {% endif %}
+{% if diagram %}
+<figure class="panel diagram">
+<a href="../diagrams/{{ diagram }}.svg"><img src="../diagrams/{{ diagram }}.svg" loading="lazy" decoding="async" alt="Architecture diagram of {{ project.title }}. The same components and rules are described in the text below."></a>
+<figcaption class="muted">Architecture, drawn with Archify (simplified public view). Tap to open full size.</figcaption>
+</figure>
+{% endif %}
 <div class="panel prose">
 {{ case_html|safe }}
 </div>

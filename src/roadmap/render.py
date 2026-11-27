@@ -27,6 +27,8 @@ def _repo_root() -> Path:
 REPO_ROOT = _repo_root()
 TEMPLATES_DIR = REPO_ROOT / "templates"
 STATIC_DIR = REPO_ROOT / "static"
+DIAGRAMS_DIR = STATIC_DIR / "diagrams"
+HOME_DIAGRAM = "roadmap-site"  # architecture of this site, shown in "How this site works" (ADR-12)
 
 _MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
@@ -68,9 +70,20 @@ def _write(path: Path, text: str) -> None:
 
 
 def render_site(
-    data: PublishedData, config: SiteConfig, content_dir: Path, out_dir: Path
+    data: PublishedData,
+    config: SiteConfig,
+    content_dir: Path,
+    out_dir: Path,
+    diagrams_dir: Path | None = None,
 ) -> list[Path]:
-    """Write the whole site into ``out_dir`` (recreated) and return the sorted written paths."""
+    """Write the whole site into ``out_dir`` (recreated) and return the sorted written paths.
+
+    Architecture diagrams (ADR-12) are static SVGs named ``<HOME_DIAGRAM>.svg`` or
+    ``<project id>.svg``; only the ones a page actually shows are copied.
+    """
+    diagrams_dir = DIAGRAMS_DIR if diagrams_dir is None else Path(diagrams_dir)
+    available = {p.stem for p in diagrams_dir.glob("*.svg")} if diagrams_dir.is_dir() else set()
+    used: set[str] = set()
     env = _make_env()
     md = MarkdownIt("commonmark", {"html": False})
     content_dir = Path(content_dir)
@@ -90,7 +103,10 @@ def render_site(
         projects={p.id: p for p in data.projects},
         chart_svg=render_weekly_svg(data.weekly),
         about_html=about_html,
+        home_diagram=HOME_DIAGRAM if HOME_DIAGRAM in available else None,
     )
+    if HOME_DIAGRAM in available:
+        used.add(HOME_DIAGRAM)
     path = out_dir / "index.html"
     _write(path, index)
     written.append(path)
@@ -104,9 +120,19 @@ def render_site(
         _write(
             path,
             case_template.render(
-                config=config, project=project, case_html=md.render(case_md)
+                config=config,
+                project=project,
+                case_html=md.render(case_md),
+                diagram=project.id if project.id in available else None,
             ),
         )
+        written.append(path)
+        if project.id in available:
+            used.add(project.id)
+
+    for name in sorted(used):
+        path = out_dir / "diagrams" / f"{name}.svg"
+        _write(path, (diagrams_dir / f"{name}.svg").read_text(encoding="utf-8"))
         written.append(path)
 
     path = out_dir / "style.css"

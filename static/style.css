@@ -172,6 +172,9 @@ summary { cursor: pointer; color: var(--muted); font-size: 0.8rem; }
 .dag-step::before { content: "\25CF  "; }
 .dag-node small { font-size: 0.78rem; }
 .prose { margin-top: 8px; }
+.diagram { margin: 20px 0 16px; padding: 12px; }
+.diagram img { display: block; width: 100%; height: auto; border-radius: 10px; background: #05070d; }
+.diagram figcaption { font-size: 0.78rem; margin-top: 8px; }
 .prose p, .prose li { color: #cbd5e1; }
 .prose h2 { font-size: 1.15rem; margin-top: 1.4rem; color: var(--text); }
 .prose h1 { display: none; }

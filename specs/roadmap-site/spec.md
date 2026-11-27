@@ -110,6 +110,9 @@ Como **gestor técnico**, quero ver como o site é alimentado, para avaliar a sk
 - **Given** o site publicado
   **When** o leitor abre a seção "How this site works"
   **Then** vê um diagrama curto do fluxo (planilha → validação → dados → site), a stack usada, o link para o repositório público do projeto e a data/hora da última atualização bem-sucedida.
+- **Given** o site publicado *(revisão 2026-11-27, ADR-12)*
+  **When** o leitor abre "How this site works" ou o case de um projeto que tem diagrama
+  **Then** vê um diagrama de arquitetura em inglês (imagem estática, legível no celular e no desktop, com texto alternativo), sem links para código privado. O diagrama do case segue as mesmas regras de conteúdo do texto do case (R8).
 
 ### R6 — Atualização a partir da planilha
 Como **Lucas**, quero que o site se atualize sozinho a partir da planilha, para nunca precisar editá-lo à mão.

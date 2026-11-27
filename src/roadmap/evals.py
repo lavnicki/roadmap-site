@@ -20,7 +20,7 @@ from roadmap.leakscan import Guardrails, load_guardrails, scan_document
 class LeakCase:
     id: str
     category: str
-    kind: str  # "html" or "text"
+    kind: str  # "html", "svg" or "text"
     content: str
     expect: str  # "block" or "allow"
     why: str
@@ -56,7 +56,7 @@ def load_cases(path: Path) -> tuple[list[str], list[str], list[LeakCase]]:
     cases = []
     for raw in data["cases"]:
         content = raw["content"] if "content" in raw else "".join(raw["parts"])
-        if raw["expect"] not in ("block", "allow") or raw["kind"] not in ("html", "text"):
+        if raw["expect"] not in ("block", "allow") or raw["kind"] not in ("html", "svg", "text"):
             raise ValueError(f"bad case {raw.get('id')}")
         cases.append(
             LeakCase(
@@ -77,7 +77,7 @@ def load_cases(path: Path) -> tuple[list[str], list[str], list[LeakCase]]:
 
 def run_case(case: LeakCase, terms: list[str], guardrails: Guardrails, literals: list[str]) -> bool:
     """True when the scanner blocks the case."""
-    suffix = ".html" if case.kind == "html" else ".txt"
+    suffix = {"html": ".html", "svg": ".svg"}.get(case.kind, ".txt")
     return bool(scan_document(case.id, case.content, suffix, terms, guardrails, literals))
 
 

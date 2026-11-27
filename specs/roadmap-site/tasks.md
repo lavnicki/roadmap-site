@@ -223,3 +223,7 @@ Pedidas pelo Lucas depois da T17. Implementadas na main session (tier: standard/
   - files: `content/about.md` (parágrafo sobre testes e evals; contagens de ADRs/tasks sem números que envelhecem), descrição do `roadmap-site` na aba `Publico`
   - do not touch: `src/`, `evals/`
   - done when: o card do projeto e a seção "How this site works" citam a suíte de evals de vazamento e os testes automatizados — test: `roadmap audit-live` sem issues e conferência visual no site
+- [x] **T25 Diagramas de arquitetura no site** — covers [R5, R2, R8] — tier: standard — follow: ADR-12, ADR-09
+  - files: `diagrams/roadmap-site.architecture.json`, `diagrams/job-search-agent.architecture.json` (fontes Archify, inglês), `static/diagrams/*.svg` (export), `src/roadmap/render.py` (copia os SVGs), `src/roadmap/leakscan.py` (varre `.svg`, bloqueia script/foreignObject/on*), `config/guardrails.yaml` e fixture (`.svg` permitido), `templates/partials/how_it_works.html`, `templates/case.html`, `static/style.css`, testes em `tests/test_leakscan.py`, `tests/test_render.py`, `tests/test_content.py`
+  - do not touch: repo privado do job agent (o diagrama original continua lá, intacto)
+  - done when: build e auditoria verdes, SVGs sem script e sem plataforma de vagas — test: `pytest tests/test_leakscan.py tests/test_render.py tests/test_content.py`

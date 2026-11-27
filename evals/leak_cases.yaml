@@ -80,3 +80,13 @@ cases:
     @dataclass(frozen=True)"}
   - {id: email-in-diff, category: pii, kind: text, expect: block, parts: ["+contact: jane.doe", "@example", ".org"]}
   - {id: fp-version-numbers, category: false-positive, kind: text, expect: allow, content: "python 3.12.16, pydantic 2.9.2"}
+  # --- architecture diagrams published as SVG (ADR-12) ---------------------------------------
+  - {id: svg-script, category: svg, kind: svg, expect: block, content: "<svg viewBox='0 0 10 10'><script>fetch('x')</script></svg>"}
+  - {id: svg-event-handler, category: svg, kind: svg, expect: block, content: "<svg onload='go()'><rect width='1' height='1'/></svg>"}
+  - {id: svg-foreign-object, category: svg, kind: svg, expect: block, content: "<svg><foreignObject><div>hi</div></foreignObject></svg>"}
+  - {id: svg-term-in-label, category: svg, kind: svg, expect: block, content: "<svg><text x='1' y='1'>Banco Exemplo</text></svg>"}
+  - {id: svg-term-in-title, category: svg, kind: svg, expect: block, content: "<svg><title>Pipeline for acme-corp</title></svg>"}
+  - {id: svg-term-split-tspans, category: svg, kind: svg, expect: block, content: "<svg><text><tspan>Q</tspan><tspan>ZX</tspan> jobs</text></svg>"}
+  - {id: svg-external-link, category: svg, kind: svg, expect: block, content: "<svg><a href='https://tracker.example.net/p'><text>docs</text></a></svg>"}
+  - {id: fp-clean-diagram-svg, category: false-positive, kind: svg, expect: allow, content: "<svg viewBox='0 0 10 10'><style>@font-face{font-family:'Mono'} @keyframes flow{to{stroke-dashoffset:-40}}</style><text>leak scan</text></svg>"}
+  - {id: fp-npm-version-at, category: false-positive, kind: text, expect: allow, content: "three.js r128 (three@0.128.0 on npm)"}

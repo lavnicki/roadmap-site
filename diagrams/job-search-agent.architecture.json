@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Job Search Agent: collect, triage, apply",
+    "locale": "en",
+    "output": ".archify/architecture-job-search-agent-20261127-125852/job-search-agent.html",
+    "quality_profile": "showcase"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 5,
+    "cellW": 150,
+    "gapX": 70,
+    "gapY": 70
+  },
+  "components": [
+    {
+      "id": "you",
+      "type": "external",
+      "label": "You",
+      "sublabel": "approve and confirm",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "CLI + local web app",
+      "sublabel": "FastAPI on localhost",
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "collect",
+      "type": "backend",
+      "label": "Collectors",
+      "sublabel": "dedup across sources",
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "sources",
+      "type": "external",
+      "label": "Open job sources",
+      "sublabel": "job APIs, ATS career pages",
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "triage",
+      "type": "backend",
+      "label": "Triage pipeline",
+      "sublabel": "blocks or ranks",
+      "tag": "never approves",
+      "row": 3,
+      "col": 1
+    },
+    {
+      "id": "filter",
+      "type": "security",
+      "label": "Company filter",
+      "sublabel": "deterministic, fail-closed",
+      "row": 3,
+      "col": 3
+    },
+    {
+      "id": "injection",
+      "type": "security",
+      "label": "Injection detector",
+      "sublabel": "suspicious → review",
+      "row": 3,
+      "col": 0
+    },
+    {
+      "id": "scorer",
+      "type": "backend",
+      "label": "LLM scorer",
+      "sublabel": "may only add limits",
+      "row": 4,
+      "col": 1
+    },
+    {
+      "id": "llm",
+      "type": "external",
+      "label": "LLM provider",
+      "sublabel": "Claude API or Ollama",
+      "row": 5,
+      "col": 1
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "postings + status history",
+      "row": 2,
+      "col": 2
+    },
+    {
+      "id": "apply",
+      "type": "backend",
+      "label": "Apply step",
+      "sublabel": "dry-run by default",
+      "row": 2,
+      "col": 3
+    },
+    {
+      "id": "career",
+      "type": "external",
+      "label": "Company career page",
+      "sublabel": "application form",
+      "row": 2,
+      "col": 4
+    }
+  ],
+  "connections": [
+    {
+      "id": "you-ui",
+      "from": "you",
+      "to": "ui",
+      "label": "search, approve",
+      "variant": "emphasis"
+    },
+    {
+      "id": "ui-collect",
+      "from": "ui",
+      "to": "collect",
+      "label": "search",
+      "variant": "emphasis"
+    },
+    {
+      "id": "collect-sources",
+      "from": "collect",
+      "to": "sources",
+      "label": "HTTPS GET"
+    },
+    {
+      "id": "collect-db",
+      "from": "collect",
+      "to": "db",
+      "label": "upsert"
+    },
+    {
+      "id": "collect-triage",
+      "from": "collect",
+      "to": "triage",
+      "label": "new postings",
+      "variant": "emphasis"
+    },
+    {
+      "id": "triage-filter",
+      "from": "triage",
+      "to": "filter",
+      "label": "1st check",
+      "variant": "security"
+    },
+    {
+      "id": "triage-injection",
+      "from": "triage",
+      "to": "injection",
+      "label": "scan text",
+      "variant": "security"
+    },
+    {
+      "id": "triage-scorer",
+      "from": "triage",
+      "to": "scorer",
+      "label": "if it passed"
+    },
+    {
+      "id": "scorer-llm",
+      "from": "scorer",
+      "to": "llm",
+      "label": "structured output"
+    },
+    {
+      "id": "triage-db",
+      "from": "triage",
+      "to": "db",
+      "label": "scored or blocked"
+    },
+    {
+      "id": "ui-db",
+      "from": "ui",
+      "to": "db",
+      "label": "your approval"
+    },
+    {
+      "id": "ui-apply",
+      "from": "ui",
+      "to": "apply",
+      "label": "apply approved",
+      "variant": "emphasis"
+    },
+    {
+      "id": "apply-filter",
+      "from": "apply",
+      "to": "filter",
+      "label": "2nd check, live page",
+      "variant": "security"
+    },
+    {
+      "id": "apply-career",
+      "from": "apply",
+      "to": "career",
+      "label": "after you confirm",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Who decides",
+      "items": [
+        "Triage can only block or rank",
+        "Only you approve a posting",
+        "Submission needs your explicit confirmation"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "AI layer",
+      "items": [
+        "Local (Ollama) or Claude API, pluggable",
+        "The model may only add restrictions",
+        "On failure, the posting waits for review"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Evals and tests",
+      "items": [
+        "70+ labelled cases: scoring, eligibility, injection",
+        "Offline eval for the company filter",
+        "About 490 automated tests, built with SDD"
+      ]
+    }
+  ]
+}

@@ -93,3 +93,26 @@ def test_languages_line_in_hero(data: PublishedData, tmp_path: Path) -> None:
     assert 'class="languages"' in html and "English: B2" in html
     render_site(data, CONFIG, CONTENT, tmp_path / "b")
     assert 'class="languages"' not in (tmp_path / "b/index.html").read_text(encoding="utf-8")
+
+
+def test_diagrams_copied_only_when_shown(data: PublishedData, tmp_path: Path) -> None:
+    diagrams = tmp_path / "diagrams"
+    diagrams.mkdir()
+    svg = "<svg viewBox='0 0 4 4'><title>diagram</title><rect width='4' height='4'/></svg>"
+    for name in ("roadmap-site", "private-proj", "unused"):
+        (diagrams / f"{name}.svg").write_text(svg, encoding="utf-8")
+    out = tmp_path / "d"
+    render_site(data, CONFIG, CONTENT, out, diagrams_dir=diagrams)
+    assert sorted(p.name for p in (out / "diagrams").iterdir()) == [
+        "private-proj.svg", "roadmap-site.svg",
+    ]
+    assert 'src="diagrams/roadmap-site.svg"' in (out / "index.html").read_text(encoding="utf-8")
+    case = (out / "cases/private-proj.html").read_text(encoding="utf-8")
+    assert 'src="../diagrams/private-proj.svg"' in case and 'alt="' in case
+
+
+def test_no_diagram_section_without_svgs(data: PublishedData, tmp_path: Path) -> None:
+    out = tmp_path / "d"
+    render_site(data, CONFIG, CONTENT, out, diagrams_dir=tmp_path / "missing")
+    assert 'class="panel diagram"' not in (out / "index.html").read_text(encoding="utf-8")
+    assert not (out / "diagrams").exists()

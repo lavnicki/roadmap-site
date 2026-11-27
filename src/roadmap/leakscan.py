@@ -40,7 +40,9 @@ SECRET_PATTERNS: dict[str, re.Pattern[str]] = {
     "phone number": re.compile(r"(?<!\d)(?:\+?55\s?)?\(?\d{2}\)?\s?9\d{4}[\s\-]?\d{4}(?!\d)"),
     # Local part must start with a letter/digit: "+@pytest.mark" (a diff line) is not an email.
     "email address": re.compile(
-        r"(?<![\w.%+\-])[A-Za-z0-9][A-Za-z0-9._%+\-]*@[A-Za-z0-9\-]+(?:\.[A-Za-z0-9\-]+)+"
+        # The domain ends in a letters-only TLD: "pkg@0.128.0" (an npm version) is not an email.
+        r"(?<![\w.%+\-])[A-Za-z0-9][A-Za-z0-9._%+\-]*@[A-Za-z0-9\-]+(?:\.[A-Za-z0-9\-]+)*"
+        r"\.[A-Za-z]{2,}(?![\w\-])"
     ),
 }
 
@@ -49,6 +51,8 @@ ALLOWED_EMAILS = re.compile(
     r"noreply@anthropic\.com|[\w.+\-\[\]]+@users\.noreply\.github\.com", re.I
 )
 
+# A published SVG must be a picture only (ADR-12): no scripts, embedded HTML or event handlers.
+_ACTIVE_SVG = re.compile(r"<\s*script|<\s*foreignObject|\son[a-z]+\s*=", re.I)
 _SAFE_DATA_URI = re.compile(r"^data:image/svg\+xml[,;]", re.I)
 
 
@@ -182,13 +186,16 @@ def scan_document(
     literals: list[str] | None = None,
 ) -> list[Issue]:
     """Scan one published file by type."""
-    if suffix == ".html":
+    if suffix in (".html", ".svg"):
         text, links = html_to_scan_text(content)
         issues = scan_text(location, text, terms, guardrails, literals)
         for link in links:
             bad = check_link(location, link, guardrails)
             if bad is not None and bad not in issues:
                 issues.append(bad)
+        if suffix == ".svg" and _ACTIVE_SVG.search(content):
+            kind = "active content (script, foreignObject or event handler)"
+            issues.append(_issue(location, kind))
         return issues
     issues = scan_text(location, content, terms, guardrails, literals)
     if suffix == ".css":

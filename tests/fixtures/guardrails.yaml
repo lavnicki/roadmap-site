@@ -35,4 +35,4 @@ allowed_link_hosts:
   - example.com
 
 # Only these file types may be published.
-allowed_file_suffixes: [".html", ".css", ""]
+allowed_file_suffixes: [".html", ".css", ".svg", ""]

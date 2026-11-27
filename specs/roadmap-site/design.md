@@ -245,6 +245,13 @@ Reprocessamento e backfill: não há estado próprio. Toda execução recalcula 
 - **Decisão:** (c). `languages: list[str]` em `SiteConfig`, renderizado no hero logo abaixo dos links. Texto atual: `English: B2 · ongoing coaching (speaking & writing)`. As linhas do `Cronograma` do curso de inglês continuam fora da allowlist e o nome da escola continua no vocabulário privado.
 - **Consequências:** o nível é declarado pelo Lucas e atualizado à mão no `config/site.yaml`. Não mistura horas de idioma com o "% do plano" técnico nem expõe a constância das sessões.
 
+### ADR-12: Diagramas de arquitetura como SVG estático gerado pelo Archify (2026-11-27)
+- **Contexto:** recrutadores técnicos querem ver a arquitetura, não só ler sobre ela. O site não usa JS (ADR-02), e o HTML interativo do Archify traz JS e quase 1 MB. O diagrama que já existe no repo privado do job agent está em português, nomeia a plataforma de vagas e linka código privado.
+- **Opções:** (a) embutir o HTML interativo do Archify (quebra a ADR-02); (b) desenhar à mão em SVG/CSS; (c) manter a fonte do diagrama no repo (`diagrams/*.architecture.json`, entrada do Archify), gerar o HTML com `archify finalize` e exportar um SVG estático com `export-svg.mjs`, que entra em `static/diagrams/`.
+- **Decisão:** (c). Versões públicas e em inglês, escritas para o site: a do job agent é derivada do diagrama privado, só com as fontes abertas, sem links de código (`repository`/`sources` ausentes) e com o filtro de empresas descrito de forma genérica. O render copia `static/diagrams/*.svg` para `dist/diagrams/` e os templates mostram `<figure><img loading="lazy" alt>` quando o arquivo existe (`roadmap-site.svg` na home, `<project.id>.svg` no case).
+- **Guardrails:** `.svg` entra nos tipos permitidos e é varrido como markup (texto, atributos, comentários e links), como o HTML. Um SVG com `<script`, `<foreignObject`, atributos `on*=` ou `href` externo não permitido bloqueia o deploy.
+- **Consequências:** o diagrama não se atualiza sozinho; quando a arquitetura mudar, regenerar com o Archify e commitar o SVG. A versão pública do job agent é uma abstração: não é o mapa completo do código.
+
 ## Risks / Open items
 
 | # | Risco / item | Impacto | Mitigação / próximo passo | Dono |
@@ -263,5 +270,5 @@ Reprocessamento e backfill: não há estado próprio. Toda execução recalcula 
   1. **Pré-deploy** (`roadmap build`): o HTML/CSS renderizado e o snapshot passam por `leakscan`: termos proibidos (secret), padrões de segredo (chaves, tokens, e-mail de service account, URL de planilha), PII (e-mail, CPF, telefone), literais de runtime (ID da planilha, identificadores da SA), vocabulário privado da planilha (`config/guardrails.yaml`), allowlist de links e de tipos de arquivo. Falhou → nada é gravado nem publicado.
   2. **Pós-deploy** (`roadmap audit-live`, workflow `audit.yml` diário e após cada publish): crawler do site no ar com as mesmas regras.
   3. **Repositório** (`roadmap audit-repo`): arquivos versionados + todos os patches e mensagens do histórico (`fetch-depth: 0`).
-- **Evals:** `evals/leak_cases.yaml` (59 casos rotulados: termos, ofuscação por tags/entidades/zero-width/fullwidth, segredos, PII, vocabulário, links e falsos positivos), rodados no CI e no audit (`roadmap eval-leaks`). Segredos falsos são escritos em pedaços para o próprio repo passar no audit.
+- **Evals:** `evals/leak_cases.yaml` (68 casos rotulados: termos, ofuscação por tags/entidades/zero-width/fullwidth, segredos, PII, vocabulário, links, SVG ativo (ADR-12) e falsos positivos; a regex de e-mail exige TLD só com letras, para não confundir versões npm como `pkg@0.128.0`), rodados no CI e no audit (`roadmap eval-leaks`). Segredos falsos são escritos em pedaços para o próprio repo passar no audit.
 - **Consequências:** normalização mais agressiva (remove caracteres invisíveis; `_` conta como separador), então falsos positivos são possíveis e bloqueiam o deploy, o que é preferível a um vazamento. Nomes de cliente/empregador nunca vão para `guardrails.yaml` (público), só para o secret.

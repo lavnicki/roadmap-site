@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Study Roadmap Site: daily build and publish",
+    "locale": "en",
+    "output": ".archify/architecture-roadmap-site-20261127-125852/roadmap-site.html",
+    "quality_profile": "showcase"
+  },
+  "layout": { "mode": "auto" },
+  "components": [
+    { "id": "sheet", "type": "external", "label": "Google Sheet", "sublabel": "private study tracker" },
+    { "id": "secrets", "type": "security", "label": "GitHub secrets", "sublabel": "SA key, sheet id, terms" },
+    { "id": "extract", "type": "backend", "label": "extract", "sublabel": "allowed ranges only" },
+    { "id": "validate", "type": "backend", "label": "validate", "sublabel": "dates, hours, totals", "tag": "blocking" },
+    { "id": "transform", "type": "backend", "label": "transform", "sublabel": "Publico allowlist" },
+    { "id": "snapshot", "type": "database", "label": "published.json", "sublabel": "committed on change" },
+    { "id": "render", "type": "backend", "label": "render", "sublabel": "Jinja2, no JS" },
+    { "id": "guard", "type": "security", "label": "leak scan", "sublabel": "terms, secrets, PII, links", "tag": "blocking" },
+    { "id": "evals", "type": "security", "label": "leak evals", "sublabel": "59 cases in CI" },
+    { "id": "pages", "type": "cloud", "label": "GitHub Pages", "sublabel": "static site" },
+    { "id": "audit", "type": "security", "label": "daily audit", "sublabel": "live site + repo history" },
+    { "id": "reader", "type": "external", "label": "Recruiter", "sublabel": "phone or desktop" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "GitHub Actions: daily at 06:00 BRT", "wraps": ["extract", "validate", "transform", "snapshot", "render", "guard"] }
+  ],
+  "connections": [
+    { "id": "extract-sheet", "from": "extract", "to": "sheet", "label": "read-only batchGet", "variant": "security" },
+    { "id": "secrets-extract", "from": "secrets", "to": "extract", "label": "credentials", "variant": "security" },
+    { "id": "extract-validate", "from": "extract", "to": "validate", "label": "raw rows", "variant": "emphasis" },
+    { "id": "validate-transform", "from": "validate", "to": "transform", "label": "only if valid", "variant": "emphasis" },
+    { "id": "transform-snapshot", "from": "transform", "to": "snapshot", "label": "write" },
+    { "id": "transform-render", "from": "transform", "to": "render", "label": "public data", "variant": "emphasis" },
+    { "id": "render-guard", "from": "render", "to": "guard", "label": "every page", "variant": "emphasis" },
+    { "id": "evals-guard", "from": "evals", "to": "guard", "label": "100% recall", "variant": "dashed" },
+    { "id": "guard-pages", "from": "guard", "to": "pages", "label": "deploy if clean", "variant": "emphasis" },
+    { "id": "reader-pages", "from": "reader", "to": "pages", "label": "HTTPS" },
+    { "id": "audit-pages", "from": "audit", "to": "pages", "label": "crawl daily", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "rose", "title": "Fail-safe", "items": ["Any validation or leak issue stops the run", "The previous version stays online", "GitHub emails the failure"] },
+    { "dot": "amber", "title": "Leak protection", "items": ["Forbidden terms live only in a secret", "Scanner evaluated with 59 labelled cases", "Daily audit of the live site and git history"] },
+    { "dot": "cyan", "title": "How it was built", "items": ["Spec-driven development: spec, ADRs, tasks", "Routine tasks run by AI coding agents"] }
+  ]
+}
