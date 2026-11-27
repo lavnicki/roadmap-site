@@ -32,3 +32,14 @@ def test_eval_file_itself_contains_no_secret_like_strings() -> None:
     raw = CASES.read_text(encoding="utf-8")
     hits = [name for name, pattern in SECRET_PATTERNS.items() if pattern.search(raw)]
     assert hits == []
+
+
+def test_published_case_counts_match_the_suite() -> None:
+    # The diagram and its SVG quote the suite size; they must not drift from it (T28).
+    import re
+
+    _, _, cases = load_cases(CASES)
+    for rel in ("diagrams/roadmap-site.architecture.json", "static/diagrams/roadmap-site.svg"):
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        counts = {int(n) for n in re.findall(r"(\d+) (?:labelled )?cases", text)}
+        assert counts == {len(cases)}, (rel, counts)

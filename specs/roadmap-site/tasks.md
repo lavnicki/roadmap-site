@@ -233,3 +233,6 @@ Pedidas pelo Lucas depois da T17. Implementadas na main session (tier: standard/
 - [x] **T27 Marcador da linha de idioma** — covers [R5] — tier: light — follow: ADR-11
   - files: `static/style.css` (escape `\25CF` do marcador), `tests/test_content.py`
   - done when: o marcador antes de "English: B2" aparece como ● e CSS/templates não têm caracteres de controle — test: `pytest tests/test_content.py -k control`
+- [x] **T28 Contagem de evals no diagrama** — covers [R5, R8] — tier: light — follow: ADR-12, ADR-09
+  - files: `diagrams/roadmap-site.architecture.json`, `static/diagrams/roadmap-site.svg` (reexport), `tests/test_leak_evals.py`
+  - done when: o diagrama cita o mesmo número de casos da suíte (68) e um teste impede divergência — test: `pytest tests/test_leak_evals.py -k counts`

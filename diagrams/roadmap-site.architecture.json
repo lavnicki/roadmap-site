@@ -4,7 +4,7 @@
   "meta": {
     "title": "Study Roadmap Site: daily build and publish",
     "locale": "en",
-    "output": ".archify/architecture-roadmap-site-20261127-125852/roadmap-site.html",
+    "output": ".archify/architecture-roadmap-site-20261127-180000/roadmap-site.html",
     "quality_profile": "showcase"
   },
   "layout": { "mode": "auto" },
@@ -17,7 +17,7 @@
     { "id": "snapshot", "type": "database", "label": "published.json", "sublabel": "committed on change" },
     { "id": "render", "type": "backend", "label": "render", "sublabel": "Jinja2, no JS" },
     { "id": "guard", "type": "security", "label": "leak scan", "sublabel": "terms, secrets, PII, links", "tag": "blocking" },
-    { "id": "evals", "type": "security", "label": "leak evals", "sublabel": "59 cases in CI" },
+    { "id": "evals", "type": "security", "label": "leak evals", "sublabel": "68 cases in CI" },
     { "id": "pages", "type": "cloud", "label": "GitHub Pages", "sublabel": "static site" },
     { "id": "audit", "type": "security", "label": "daily audit", "sublabel": "live site + repo history" },
     { "id": "reader", "type": "external", "label": "Recruiter", "sublabel": "phone or desktop" }
@@ -40,7 +40,7 @@
   ],
   "cards": [
     { "dot": "rose", "title": "Fail-safe", "items": ["Any validation or leak issue stops the run", "The previous version stays online", "GitHub emails the failure"] },
-    { "dot": "amber", "title": "Leak protection", "items": ["Forbidden terms live only in a secret", "Scanner evaluated with 59 labelled cases", "Daily audit of the live site and git history"] },
+    { "dot": "amber", "title": "Leak protection", "items": ["Forbidden terms live only in a secret", "Scanner evaluated with 68 labelled cases", "Daily audit of the live site and git history"] },
     { "dot": "cyan", "title": "How it was built", "items": ["Spec-driven development: spec, ADRs, tasks", "Routine tasks run by AI coding agents"] }
   ]
 }
