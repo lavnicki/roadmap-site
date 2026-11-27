@@ -1,0 +1,11 @@
+name: "Lucas Lavnicki"
+headline: "Senior Data Engineer → AI Data Engineer"
+summary: "Senior Data Engineer building production pipelines on Databricks, Snowflake, Spark and AWS, now moving into AI-applied data engineering: LLM pipelines, evals and guardrails. This page tracks that study path, updated daily from my study plan."
+links:
+  - { label: "LinkedIn", url: "https://www.linkedin.com/in/lucas-lavnicki-data-engineer" }
+  - { label: "GitHub", url: "https://github.com/lavnicki" }
+platform: [Databricks, Spark, Snowflake, AWS, LLMs, Evals & guardrails, Spec-driven development]
+start_year: 2026
+chart_min_weeks: 4
+base_url: "https://lavnicki.github.io/roadmap-site/"
+repo_url: "https://github.com/lavnicki/roadmap-site"

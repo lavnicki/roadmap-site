@@ -1,0 +1,161 @@
+{
+  "competencies": [
+    {
+      "courses": [
+        "alpha",
+        "beta",
+        "delta"
+      ],
+      "description": "Building batch and streaming data platforms.",
+      "hours_done": 23.0,
+      "hours_planned": 28.0,
+      "id": "data-platforms",
+      "name": "Data Platforms",
+      "order": 1,
+      "pct": 82.1,
+      "projects": [
+        "public-proj"
+      ],
+      "status": "In progress"
+    },
+    {
+      "courses": [],
+      "description": "Building data pipelines for LLM applications.",
+      "hours_done": 0.0,
+      "hours_planned": 0.0,
+      "id": "llm-engineering",
+      "name": "LLM Engineering",
+      "order": 2,
+      "pct": null,
+      "projects": [
+        "private-proj"
+      ],
+      "status": "In progress"
+    }
+  ],
+  "courses": [
+    {
+      "competencies": [
+        "data-platforms"
+      ],
+      "credential_url": null,
+      "hours_done": 6.5,
+      "hours_planned": 9.5,
+      "id": "alpha",
+      "modules": [
+        {
+          "id": "alpha-m1",
+          "name": "Module 1 – Foundations",
+          "status": "Done"
+        },
+        {
+          "id": "alpha-m2",
+          "name": "Module 2 – Advanced",
+          "status": "Planned"
+        }
+      ],
+      "name": "Alpha Course",
+      "provider": "Provider A",
+      "status": "In progress"
+    },
+    {
+      "competencies": [
+        "data-platforms"
+      ],
+      "credential_url": null,
+      "hours_done": 6.5,
+      "hours_planned": 8.5,
+      "id": "beta",
+      "modules": [],
+      "name": "Beta Course",
+      "provider": "Provider B",
+      "status": "In progress"
+    },
+    {
+      "competencies": [
+        "data-platforms"
+      ],
+      "credential_url": "https://example.com/cred/delta",
+      "hours_done": 10.0,
+      "hours_planned": 10.0,
+      "id": "delta",
+      "modules": [],
+      "name": "Delta Certification",
+      "provider": "Provider D",
+      "status": "Done"
+    }
+  ],
+  "data_updated_at": "2027-02-01",
+  "kpis": {
+    "courses_done": 1,
+    "courses_total": 3,
+    "hours_done": 23.0,
+    "hours_planned_total": 28.0,
+    "pct_plan": 82.1,
+    "study_start": "2026-12-28"
+  },
+  "profile": {
+    "headline": "Senior Data Engineer → AI Data Engineer",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/TODO"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/TODO"
+      }
+    ],
+    "name": "Lucas Lavnicki",
+    "summary": "TODO: 1–2 sentences in English."
+  },
+  "projects": [
+    {
+      "case_path": null,
+      "competencies": [
+        "data-platforms"
+      ],
+      "description": "A public demo pipeline.",
+      "id": "public-proj",
+      "repo_url": "https://github.com/example/public-proj",
+      "stack": [
+        "Python",
+        "Airflow"
+      ],
+      "title": "Public Project"
+    },
+    {
+      "case_path": "cases/private-proj.html",
+      "competencies": [
+        "llm-engineering"
+      ],
+      "description": "A private agent project.",
+      "id": "private-proj",
+      "repo_url": null,
+      "stack": [
+        "Python",
+        "LLM"
+      ],
+      "title": "Private Project"
+    }
+  ],
+  "schema_version": 1,
+  "weekly": [
+    {
+      "hours_done_cum": 5.0,
+      "week_start": "2026-12-28"
+    },
+    {
+      "hours_done_cum": 9.0,
+      "week_start": "2027-01-04"
+    },
+    {
+      "hours_done_cum": 10.5,
+      "week_start": "2027-01-11"
+    },
+    {
+      "hours_done_cum": 13.0,
+      "week_start": "2027-01-18"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+# Guardrails applied to every rendered file before deploy (roadmap build), to the live site
+# (roadmap audit-live) and, for secret patterns, to the whole repository (roadmap audit-repo).
+# This file is public: never list client or employer names here. Those go in the
+# FORBIDDEN_TERMS GitHub secret.
+
+# Words that only exist in the private columns/tabs of the study sheet. If any of them shows up
+# on the site, something bypassed the allowlist. Whole-word, case- and accent-insensitive.
+private_vocabulary:
+  - Observação
+  - Entrevistas
+  - Entrevista
+  - Atividade
+  - Não feito
+  - A fazer
+  - Aula ao vivo
+  - Prática nos cursos
+  - DevSpeak
+  - Bootcamp
+  - HermesAgent
+  - Engenharia Agêntica
+  - DataLemur
+  - StrataScratch
+  - Pulado
+  - busca por vaga
+  - Plano de Estudos
+  - Cronograma
+
+# Hosts that links (href/src) may point to. Relative links and inline SVG data URIs are always
+# allowed; plain http, mailto and any other host block the deploy.
+allowed_link_hosts:
+  - github.com
+  - www.linkedin.com
+  - linkedin.com
+  - lavnicki.github.io
+
+# Only these file types may be published.
+allowed_file_suffixes: [".html", ".css", ""]

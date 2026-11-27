@@ -1,0 +1,43 @@
+name: audit
+
+# Independent check that nothing sensitive is public: runs every day, after every publish and
+# on demand. Fails (and GitHub emails the owner) on any leak; logs never show what matched.
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+  workflow_run:
+    workflows: [publish]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history: deleted files and old snapshots are scanned too
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Leak evals
+        run: roadmap eval-leaks
+      - name: Audit repository and git history
+        env:
+          FORBIDDEN_TERMS: ${{ secrets.FORBIDDEN_TERMS }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+        run: roadmap audit-repo --strict-authors
+      - name: Audit live site
+        env:
+          FORBIDDEN_TERMS: ${{ secrets.FORBIDDEN_TERMS }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+        run: roadmap audit-live

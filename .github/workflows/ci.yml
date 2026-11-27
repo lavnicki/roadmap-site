@@ -1,0 +1,29 @@
+name: ci
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest -q
+      - name: Leak evals
+        run: roadmap eval-leaks
+      - name: Build (fixture)
+        run: >-
+          roadmap build --source fixture --fixture tests/fixtures/valid.json
+          --config tests/fixtures/site.yaml --guardrails tests/fixtures/guardrails.yaml --content tests/fixtures/content --out dist --today 2027-02-01

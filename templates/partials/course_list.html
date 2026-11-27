@@ -1,0 +1,15 @@
+<ul class="panel courses">
+{% for course in data.courses %}
+<li class="course">
+<div class="course-main">
+<strong>{{ course.name }}</strong>
+{% if course.provider %}<span class="muted">{{ course.provider }}</span>{% endif %}
+</div>
+<div class="course-meta">
+<span class="status status--{{ course.status|slug }}">{{ course.status }}</span>
+{% if course.hours_planned %}<span class="mono muted">{{ course.hours_done|hours }}/{{ course.hours_planned|hours }} h</span>{% endif %}
+{% if course.credential_url %}<a href="{{ course.credential_url }}" rel="noopener">View credential</a>{% endif %}
+</div>
+</li>
+{% endfor %}
+</ul>

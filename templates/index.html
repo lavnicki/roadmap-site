@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ config.name }} – {{ config.headline }}{% endblock %}
+{% block content %}
+{% include "partials/hero.html" %}
+{% if chart_svg %}
+<section id="progress" aria-labelledby="progress-h">
+<p class="eyebrow mono">// metrics</p>
+<h2 id="progress-h">Weekly progress</h2>
+<div class="panel chart">{{ chart_svg|safe }}</div>
+</section>
+{% endif %}
+<section id="competencies" aria-labelledby="competencies-h">
+<p class="eyebrow mono">// platform layers</p>
+<h2 id="competencies-h">Competencies</h2>
+<div class="grid">
+{% for competency in data.competencies %}
+{% include "partials/competency_card.html" %}
+{% endfor %}
+</div>
+</section>
+<section id="courses" aria-labelledby="courses-h">
+<p class="eyebrow mono">// training jobs</p>
+<h2 id="courses-h">Courses and certifications</h2>
+{% include "partials/course_list.html" %}
+</section>
+<section id="projects" aria-labelledby="projects-h">
+<p class="eyebrow mono">// deployments</p>
+<h2 id="projects-h">Projects</h2>
+<div class="grid">
+{% for project in data.projects %}
+{% include "partials/project_card.html" %}
+{% endfor %}
+</div>
+</section>
+{% include "partials/how_it_works.html" %}
+{% endblock %}

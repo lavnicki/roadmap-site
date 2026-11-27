@@ -1,0 +1,15 @@
+<section id="how-this-site-works" aria-labelledby="how-h">
+<p class="eyebrow mono">// orchestration</p>
+<h2 id="how-h">How this site works</h2>
+<ol class="dag" aria-label="Pipeline that builds this site">
+<li class="dag-node"><span class="mono dag-step">extract</span><span>Google Sheets</span><small class="muted">read-only, allowed ranges</small></li>
+<li class="dag-node"><span class="mono dag-step">validate</span><span>Data-quality gates</span><small class="muted">schema, dates, hours, reconciliation</small></li>
+<li class="dag-node"><span class="mono dag-step">transform</span><span>Allowlist &amp; metrics</span><small class="muted">only rows marked public</small></li>
+<li class="dag-node"><span class="mono dag-step">guard</span><span>Leak scan</span><small class="muted">terms, secrets, PII, links</small></li>
+<li class="dag-node"><span class="mono dag-step">serve</span><span>Static site</span><small class="muted">GitHub Pages, no JS</small></li>
+</ol>
+<div class="panel prose">
+{{ about_html|safe }}
+</div>
+<p class="run mono"><span class="status status--done">last run: succeeded</span> <span class="muted">Data last updated: {{ data.data_updated_at.isoformat() }}</span> <a class="button" href="{{ config.repo_url }}" rel="noopener">Source code <span aria-hidden="true">&#8599;</span></a></p>
+</section>

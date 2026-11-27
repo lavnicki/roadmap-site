@@ -1,0 +1,82 @@
+# Leak-detection eval suite (roadmap eval-leaks). Every case is scanned like a published file.
+# The real forbidden terms are a GitHub secret; these evals use fictitious stand-ins with the
+# same shapes (a hyphenated name, an accented two-word name, short uppercase acronyms).
+# Never put a real term in this file: it is public.
+# Fake secrets use `parts`, joined at run time, so this file never looks like a credential.
+terms:
+  - acme-corp
+  - Cliente Fictício
+  - Banco Exemplo
+  - QZX
+  - KRV
+literals:
+  - ["1AbCdEfGhIjKlMnOp", "QrStUvWxYz0123456789ab"]   # stand-in for the sheet id
+
+cases:
+  # --- forbidden terms, plain -------------------------------------------------------------
+  - {id: term-plain, category: forbidden-term, kind: text, expect: block, content: "Built the lakehouse for acme-corp."}
+  - {id: term-upper, category: forbidden-term, kind: text, expect: block, content: "ACME-CORP data platform"}
+  - {id: term-space-variant, category: forbidden-term, kind: text, expect: block, content: "migrated acme corp workloads"}
+  - {id: term-underscore-variant, category: forbidden-term, kind: text, expect: block, content: "bucket acme_corp_raw"}
+  - {id: term-accent-dropped, category: forbidden-term, kind: text, expect: block, content: "cliente ficticio squad"}
+  - {id: term-two-words-linebreak, category: forbidden-term, kind: text, expect: block, content: "Cliente\n   Fictício"}
+  - {id: term-acronym, category: forbidden-term, kind: text, expect: block, content: "Built the QZX dashboard"}
+  - {id: term-acronym-lower, category: forbidden-term, kind: text, expect: block, content: "the qzx pipeline"}
+  - {id: term-in-url, category: forbidden-term, kind: text, expect: block, content: "https://github.com/acme-corp/repo"}
+  - {id: term-in-parens, category: forbidden-term, kind: text, expect: block, content: "(KRV)"}
+  # --- forbidden terms, obfuscated in HTML ----------------------------------------------------
+  - {id: html-split-by-tags, category: obfuscation, kind: html, expect: block, content: "<p>Banco <b>Exem</b>plo</p>"}
+  - {id: html-numeric-entities, category: obfuscation, kind: html, expect: block, content: "<p>&#81;&#90;&#88; metrics</p>"}
+  - {id: html-named-entity, category: obfuscation, kind: html, expect: block, content: "<p>Cliente Fict&iacute;cio</p>"}
+  - {id: html-title-attribute, category: obfuscation, kind: html, expect: block, content: "<span title=\"for acme-corp\">x</span>"}
+  - {id: html-alt-attribute, category: obfuscation, kind: html, expect: block, content: "<img src=\"a.svg\" alt=\"QZX logo\">"}
+  - {id: html-meta-description, category: obfuscation, kind: html, expect: block, content: "<meta name=\"description\" content=\"Lead engineer at Banco Exemplo\">"}
+  - {id: html-comment, category: obfuscation, kind: html, expect: block, content: "<p>ok</p><!-- acme-corp -->"}
+  - {id: zero-width-space, category: obfuscation, kind: text, expect: block, content: "acme​-corp"}
+  - {id: soft-hyphen, category: obfuscation, kind: text, expect: block, content: "Ban­co Exemplo"}
+  - {id: fullwidth-letters, category: obfuscation, kind: text, expect: block, content: "ＱＺＸ team"}
+  - {id: html-hidden-element, category: obfuscation, kind: html, expect: block, content: "<div hidden>KRV</div>"}
+  # --- secrets and identifiers ------------------------------------------------------------------
+  - {id: gcp-private-key, category: secret, kind: text, expect: block, parts: ["-----BEGIN ", "PRIVATE KEY-----\nMIIEv"]}
+  - {id: gcp-key-json-field, category: secret, kind: text, expect: block, parts: ["{\"private", "_key\": \"x\"}"]}
+  - {id: service-account-email, category: secret, kind: text, expect: block, parts: ["reader@my-proj", ".iam.gservice", "account.com"]}
+  - {id: google-api-key, category: secret, kind: text, expect: block, parts: ["AI", "za", "SyA1234567890abcdefghijklmnopqrstu"]}
+  - {id: github-token, category: secret, kind: text, expect: block, parts: ["gh", "p_", "abcdefghijklmnopqrstuvwxyz0123456789"]}
+  - {id: anthropic-key, category: secret, kind: text, expect: block, parts: ["sk-", "ant-", "api03-abcdefghij"]}
+  - {id: aws-access-key, category: secret, kind: text, expect: block, parts: ["AK", "IA", "IOSFODNN7EXAMPLE"]}
+  - {id: sheet-url, category: secret, kind: html, expect: block, parts: ["<a href=\"https://docs.google", ".com/spreadsheets/d/x\">plan</a>"]}
+  - {id: sheet-id-literal, category: secret, kind: text, expect: block, parts: ["id=1AbCdEfGhIjKlMnOp", "QrStUvWxYz0123456789ab"]}
+  # --- personal data ------------------------------------------------------------------------------
+  - {id: email, category: pii, kind: text, expect: block, parts: ["contact: someone", "@example", ".com"]}
+  - {id: cpf, category: pii, kind: text, expect: block, parts: ["CPF 123.456", ".789-09"]}
+  - {id: phone-br, category: pii, kind: text, expect: block, parts: ["(51) 9", "8765-4321"]}
+  - {id: phone-br-intl, category: pii, kind: text, expect: block, parts: ["+55 51 9", "87654321"]}
+  # --- private vocabulary (only exists in non-public parts of the sheet) ---------------------
+  - {id: vocab-observacao, category: vocabulary, kind: text, expect: block, content: "Observação: pular módulo"}
+  - {id: vocab-interviews-tab, category: vocabulary, kind: text, expect: block, content: "Entrevistas — SQL"}
+  - {id: vocab-english-course, category: vocabulary, kind: html, expect: block, content: "<li>DevSpeak</li>"}
+  - {id: vocab-dropped-bootcamp, category: vocabulary, kind: text, expect: block, content: "Bootcamp HermesAgent part 1"}
+  - {id: vocab-status-missed, category: vocabulary, kind: text, expect: block, content: "status: Não feito"}
+  - {id: vocab-activity-column, category: vocabulary, kind: text, expect: block, content: "Aula ao vivo 19h–20h"}
+  # --- links ------------------------------------------------------------------------------------------
+  - {id: link-unknown-host, category: link, kind: html, expect: block, content: "<a href=\"https://tracker.example.net/x\">x</a>"}
+  - {id: link-plain-http, category: link, kind: html, expect: block, content: "<a href=\"http://github.com/lavnicki\">gh</a>"}
+  - {id: link-mailto, category: link, kind: html, expect: block, content: "<a href=\"mailto:x\">mail</a>"}
+  - {id: link-javascript, category: link, kind: html, expect: block, content: "<a href=\"javascript:alert(1)\">x</a>"}
+  - {id: link-image-other-host, category: link, kind: html, expect: block, content: "<img src=\"https://cdn.example.net/p.png\" alt=\"\">"}
+  - {id: link-data-html, category: link, kind: html, expect: block, content: "<a href=\"data:text/html,hi\">x</a>"}
+  # --- must NOT block (false-positive guards) -------------------------------------------------
+  - {id: fp-financial, category: false-positive, kind: text, expect: allow, content: "financial and ancient principles of finance"}
+  - {id: fp-acronym-inside-word, category: false-positive, kind: text, expect: allow, content: "KRVX QZXA AQZX"}
+  - {id: fp-longer-hyphenated, category: false-positive, kind: text, expect: allow, content: "acme-corporation and pre-acme-corp"}
+  - {id: fp-similar-words, category: false-positive, kind: text, expect: allow, content: "Banco de dados exemplar"}
+  - {id: fp-real-copy, category: false-positive, kind: html, expect: allow, content: "<h3>Data Platform Engineering</h3><p>Batch and streaming pipelines with Spark, Delta Lake and Databricks.</p>"}
+  - {id: fp-allowed-links, category: false-positive, kind: html, expect: allow, content: "<a href=\"https://github.com/lavnicki\">GitHub</a> <a href=\"https://www.linkedin.com/in/x\">in</a> <a href=\"cases/a.html\">case</a> <a href=\"#top\">top</a>"}
+  - {id: fp-svg-favicon, category: false-positive, kind: html, expect: allow, content: "<link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg%3E%3C/svg%3E\">"}
+  - {id: fp-hours-and-dates, category: false-positive, kind: text, expect: allow, content: "12.0/78.0 h (15.4%) since 2026-11-21, 91 days"}
+  - {id: fp-css-media, category: false-positive, kind: text, expect: allow, content: "@media (prefers-color-scheme: dark) { :root { --bg: #0b1020; } }"}
+  - {id: fp-english-fazer, category: false-positive, kind: text, expect: allow, content: "A faster pipeline"}
+  - {id: fp-diff-decorator, category: false-positive, kind: text, expect: allow, content: "+@pytest.mark.parametrize(
+    @dataclass(frozen=True)"}
+  - {id: email-in-diff, category: pii, kind: text, expect: block, parts: ["+contact: jane.doe", "@example", ".org"]}
+  - {id: fp-version-numbers, category: false-positive, kind: text, expect: allow, content: "python 3.12.16, pydantic 2.9.2"}

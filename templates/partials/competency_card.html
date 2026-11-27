@@ -1,0 +1,41 @@
+<article class="card layer" id="competency-{{ competency.id }}">
+<div class="card-head">
+<span class="tag mono">layer:{{ '%02d'|format(competency.order) }}</span>
+<span class="status status--{{ competency.status|slug }}">{{ competency.status }}</span>
+</div>
+<h3>{{ competency.name }}</h3>
+<p>{{ competency.description }}</p>
+{% if competency.pct is not none %}
+<div class="meter">
+<p class="meter-text mono"><span>{{ competency.hours_done|hours }} / {{ competency.hours_planned|hours }} h</span><span>{{ competency.pct|pct }}</span></p>
+<progress value="{{ competency.pct }}" max="100" aria-label="{{ competency.name }} progress">{{ competency.pct|pct }}</progress>
+</div>
+{% elif competency.projects or competency.courses %}
+<div class="meter">
+<p class="meter-text mono"><span>{% if competency.courses %}{{ competency.courses|length }} course{{ 's' if competency.courses|length != 1 }}{% endif %}{% if competency.courses and competency.projects %} &middot; {% endif %}{% if competency.projects %}{{ competency.projects|length }} hands-on project{{ 's' if competency.projects|length != 1 }}{% endif %}</span></p>
+</div>
+{% endif %}
+{% if competency.courses %}
+<h4 class="mono">courses</h4>
+<ul class="jobs">
+{% for course_id in competency.courses %}{% set course = courses[course_id] %}
+<li>
+<span class="job-name">{{ course.name }}</span> <span class="status status--{{ course.status|slug }}">{{ course.status }}</span>
+{% if course.modules %}
+<details>
+<summary class="mono">{{ course.modules|length }} modules &middot; {{ course.modules|selectattr("status", "equalto", "Done")|list|length }} done</summary>
+<ol class="tasks">
+{% for module in course.modules %}<li class="task task--{{ module.status|slug }}"><span class="task-icon" aria-hidden="true"></span>{{ module.name }} <span class="status status--{{ module.status|slug }}">{{ module.status }}</span></li>
+{% endfor %}</ol>
+</details>
+{% endif %}
+</li>
+{% endfor %}</ul>
+{% endif %}
+{% if competency.projects %}
+<h4 class="mono">projects</h4>
+<ul class="jobs">
+{% for project_id in competency.projects %}<li><a href="#project-{{ project_id }}">{{ projects[project_id].title }}</a></li>
+{% endfor %}</ul>
+{% endif %}
+</article>

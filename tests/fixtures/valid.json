@@ -1,0 +1,362 @@
+{
+  "cronograma_totals": [
+    [
+      "Horas planejadas",
+      "22,0"
+    ],
+    [
+      "Horas concluídas",
+      "15,0"
+    ],
+    [
+      "Horas não feitas",
+      "1,0"
+    ]
+  ],
+  "cronograma_left": [
+    [
+      "Data",
+      "Dia",
+      "Curso"
+    ],
+    [
+      "28/12",
+      "Seg",
+      "Curso Alpha"
+    ],
+    [
+      "29/12",
+      "Ter",
+      "Interno X"
+    ],
+    [
+      "30/12",
+      "Qua",
+      "Curso Alpha"
+    ],
+    [
+      "05/01",
+      "Seg",
+      "Curso Beta"
+    ],
+    [
+      "06/01",
+      "Ter",
+      "Interno X"
+    ],
+    [
+      "12/01",
+      "Seg",
+      "Curso Alpha"
+    ],
+    [
+      "19/01",
+      "Seg",
+      "Curso Beta"
+    ],
+    [
+      "26/01",
+      "Seg",
+      "Curso Alpha"
+    ],
+    [
+      "27/01",
+      "Ter",
+      "Curso Beta"
+    ],
+    [
+      "28/01",
+      "Qua",
+      "Curso Gamma"
+    ]
+  ],
+  "cronograma_right": [
+    [
+      "Horas",
+      "Status"
+    ],
+    [
+      "2,0",
+      "Feito"
+    ],
+    [
+      "1,0",
+      "Não feito"
+    ],
+    [
+      "3,0",
+      "Feito"
+    ],
+    [
+      "4,0",
+      "Feito"
+    ],
+    [
+      "2,0",
+      "Feito"
+    ],
+    [
+      "1,5",
+      "Feito"
+    ],
+    [
+      "2,5",
+      "Feito"
+    ],
+    [
+      "3,0",
+      "A fazer"
+    ],
+    [
+      "2,0",
+      "A fazer"
+    ],
+    [
+      "1,0",
+      "A fazer"
+    ]
+  ],
+  "modules": [
+    [
+      "Módulo",
+      "Tema",
+      "Horas",
+      "Status"
+    ],
+    [
+      "1",
+      "Fundamentos",
+      "14",
+      "Feito"
+    ],
+    [
+      "2",
+      "Avançado",
+      "14",
+      "A fazer"
+    ]
+  ],
+  "publico": [
+    [
+      "tipo",
+      "id",
+      "publicar",
+      "ordem",
+      "nome_en",
+      "descricao_en",
+      "competencias",
+      "provedor",
+      "cronograma_key",
+      "url",
+      "credencial_url",
+      "stack",
+      "pai",
+      "status_manual",
+      "horas_manual"
+    ],
+    [
+      "competencia",
+      "data-platforms",
+      "sim",
+      "1",
+      "Data Platforms",
+      "Building batch and streaming data platforms.",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "competencia",
+      "llm-engineering",
+      "sim",
+      "2",
+      "LLM Engineering",
+      "Building data pipelines for LLM applications.",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "competencia",
+      "secret-comp",
+      "não",
+      "3",
+      "Secret Competency",
+      "Hidden.",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "curso",
+      "alpha",
+      "sim",
+      "1",
+      "Alpha Course",
+      "",
+      "data-platforms",
+      "Provider A",
+      "Curso Alpha",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "curso",
+      "beta",
+      "sim",
+      "2",
+      "Beta Course",
+      "",
+      "data-platforms",
+      "Provider B",
+      "Curso Beta",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "curso",
+      "delta",
+      "sim",
+      "3",
+      "Delta Certification",
+      "",
+      "data-platforms",
+      "Provider D",
+      "",
+      "",
+      "https://example.com/cred/delta",
+      "",
+      "",
+      "Done",
+      "10,0"
+    ],
+    [
+      "curso",
+      "gamma",
+      "não",
+      "4",
+      "Gamma Course",
+      "",
+      "data-platforms",
+      "Provider G",
+      "Curso Gamma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "projeto",
+      "public-proj",
+      "sim",
+      "1",
+      "Public Project",
+      "A public demo pipeline.",
+      "data-platforms",
+      "",
+      "",
+      "https://github.com/example/public-proj",
+      "",
+      "Python;Airflow",
+      "",
+      "",
+      ""
+    ],
+    [
+      "projeto",
+      "private-proj",
+      "sim",
+      "2",
+      "Private Project",
+      "A private agent project.",
+      "llm-engineering",
+      "",
+      "",
+      "",
+      "",
+      "Python;LLM",
+      "",
+      "",
+      ""
+    ],
+    [
+      "projeto",
+      "hidden-proj",
+      "sim",
+      "3",
+      "Hidden Project",
+      "Must not appear.",
+      "secret-comp",
+      "",
+      "",
+      "https://github.com/example/hidden",
+      "",
+      "Python",
+      "",
+      "",
+      ""
+    ],
+    [
+      "modulo",
+      "alpha-m1",
+      "sim",
+      "1",
+      "Module 1 – Foundations",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "alpha",
+      "",
+      ""
+    ],
+    [
+      "modulo",
+      "alpha-m2",
+      "sim",
+      "2",
+      "Module 2 – Advanced",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "alpha",
+      "",
+      ""
+    ]
+  ]
+}

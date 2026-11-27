@@ -1,0 +1,5 @@
+tipo,id,publicar,ordem,nome_en,descricao_en,competencias,provedor,cronograma_key,url,credencial_url,stack,pai,status_manual,horas_manual
+competencia,example-competency,sim,1,Example Competency,Short English description of a fictitious competency.,,,,,,,,,
+curso,example-course,sim,1,Example Course,,example-competency,Example Provider,Example Course,,https://example.com/credential/example-course,,,,
+projeto,example-project,sim,1,Example Project,A fictitious demo pipeline used only for illustration.,example-competency,,,https://github.com/example-user/example-project,,Python;Airflow,,,
+modulo,example-course-m1,sim,1,Example Module 1 - Foundations,,,,,,,,example-course,,

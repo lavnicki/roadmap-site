@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#070b14">
+<title>{% block title %}{{ config.name }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ config.summary }}{% endblock %}">
+<link rel="stylesheet" href="{% block root %}{% endblock %}style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23070b14%22/%3E%3Cpath d=%22M7 22 13 10l6 12 6-12%22 fill=%22none%22 stroke=%22%2322d3ee%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="backdrop" aria-hidden="true"></div>
+<main id="main">
+{% block content %}{% endblock %}
+</main>
+<footer class="footer">
+<p class="mono">built by a pipeline &middot; validated, allowlisted and leak-scanned before every deploy</p>
+</footer>
+</body>
+</html>

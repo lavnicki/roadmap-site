@@ -1,0 +1,31 @@
+<header class="hero">
+<svg class="hero-graph" viewBox="0 0 320 240" aria-hidden="true" focusable="false">
+<g class="edges">
+<path d="M40 50 140 40M40 50 140 120M40 120 140 40M40 120 140 120M40 120 140 200M40 190 140 120M40 190 140 200M140 40 240 80M140 40 240 160M140 120 240 80M140 120 240 160M140 200 240 80M140 200 240 160M240 80 290 120M240 160 290 120"/>
+</g>
+<g class="nodes">
+<circle cx="40" cy="50" r="6"/><circle cx="40" cy="120" r="6"/><circle cx="40" cy="190" r="6"/>
+<circle cx="140" cy="40" r="7"/><circle cx="140" cy="120" r="7"/><circle cx="140" cy="200" r="7"/>
+<circle cx="240" cy="80" r="7"/><circle cx="240" cy="160" r="7"/>
+<circle class="out" cx="290" cy="120" r="9"/>
+</g>
+</svg>
+<p class="prompt mono"><span class="prompt-user">lucas@data-platform</span>:<span class="prompt-path">~/roadmap</span>$ roadmap build --source sheets <span class="ok">&#10003; deployed</span></p>
+<h1>{{ data.profile.name }}</h1>
+<p class="headline">{{ data.profile.headline }}</p>
+<p class="summary">{{ data.profile.summary }}</p>
+<ul class="links">
+{% for link in data.profile.links %}<li><a class="button" href="{{ link.url }}" rel="noopener">{{ link.label }} <span aria-hidden="true">&#8599;</span></a></li>
+{% endfor %}</ul>
+{% if config.platform %}
+<ul class="platform mono" aria-label="Production platform">
+{% for item in config.platform %}<li>{{ item }}</li>
+{% endfor %}</ul>
+{% endif %}
+<dl class="kpis">
+<div class="kpi"><dt class="mono">hours_completed</dt><dd>{{ data.kpis.hours_done|hours }}<span class="unit"> h</span></dd><dd class="kpi-label">Hours completed</dd></div>
+<div class="kpi"><dt class="mono">plan_completion</dt><dd>{{ data.kpis.pct_plan|pct }}</dd><dd class="kpi-label">% of plan</dd></div>
+<div class="kpi"><dt class="mono">courses_completed</dt><dd>{{ data.kpis.courses_done }}<span class="unit">/{{ data.kpis.courses_total }}</span></dd><dd class="kpi-label">Courses completed</dd></div>
+<div class="kpi"><dt class="mono">studying_since</dt><dd>{{ data.kpis.study_start|month_year }}</dd><dd class="kpi-label">Studying since</dd></div>
+</dl>
+</header>

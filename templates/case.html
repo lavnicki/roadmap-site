@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block root %}../{% endblock %}
+{% block title %}{{ project.title }} – {{ config.name }}{% endblock %}
+{% block description %}{{ project.description }}{% endblock %}
+{% block content %}
+<p class="back mono"><a href="../index.html">&larr; cd ../roadmap</a></p>
+<article class="case">
+<p class="eyebrow mono">// case study &middot; {% if project.repo_url %}repo:public{% else %}repo:private{% endif %}</p>
+<h1>{{ project.title }}</h1>
+<p class="summary">{{ project.description }}</p>
+{% if project.stack %}
+<ul class="tags mono">
+{% for item in project.stack %}<li>{{ item }}</li>
+{% endfor %}</ul>
+{% endif %}
+<div class="panel prose">
+{{ case_html|safe }}
+</div>
+</article>
+{% endblock %}

@@ -1,0 +1,10 @@
+name: "Lucas Lavnicki"
+headline: "Senior Data Engineer → AI Data Engineer"
+summary: "TODO: 1–2 sentences in English."
+links:
+  - { label: "LinkedIn", url: "https://www.linkedin.com/in/TODO" }
+  - { label: "GitHub", url: "https://github.com/TODO" }
+start_year: 2026
+chart_min_weeks: 4
+base_url: "https://TODO.github.io/roadmap-site/"
+repo_url: "https://github.com/TODO/roadmap-site"

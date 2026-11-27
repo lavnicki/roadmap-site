@@ -1,0 +1,62 @@
+name: publish
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Build site
+        env:
+          GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          FORBIDDEN_TERMS: ${{ secrets.FORBIDDEN_TERMS }}
+        run: roadmap build --source sheets --out dist --snapshot data/published.json
+      - name: Commit snapshot
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Stage first: on the very first run the file is untracked, and plain
+          # `git diff` ignores untracked files.
+          git add data/published.json
+          git diff --cached --quiet || (
+            git config user.name "github-actions[bot]" &&
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com" &&
+            git commit -m "data: snapshot $(date -u +%F)" &&
+            git push
+          )
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
